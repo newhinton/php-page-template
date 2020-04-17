@@ -1,0 +1,35 @@
+.application-logo {
+  height: 3em;
+  margin-right: 15px; }
+
+.icon-primary-big {
+  color: #ffb500 !important;
+  font-size: 32px; }
+
+.icon-primary {
+  color: #ffb500 !important; }
+
+.menu-icon {
+  margin-right: 5px; }
+
+.content-container {
+  margin-top: 32px; }
+
+@media (max-width: 420px) {
+  .site-title {
+    font-size: 0px; } }
+
+.games-image {
+  height: 128px; }
+
+.past {
+  text-decoration: line-through;
+  opacity: 0.6; }
+
+.now {
+  font-style: italic; }
+
+.no-header-topborder > th {
+  border-top: none !important; }
+
+/*# sourceMappingURL=application.css.map */

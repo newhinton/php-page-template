@@ -1,0 +1,15 @@
+smtp-server = "securesmtp.example.com"
+
+smtp-port = 587
+
+smtp-username = "admin@example.com"
+
+smtp-password = "password"
+
+smtp-alias = "alias"
+
+smtp-security = "star|tls"
+
+pagedomain = "http://example.com:8080"
+
+pagetitle = "pagetitle"

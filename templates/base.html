@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Based on: https://github.com/BlackrockDigital/startbootstrap-bare/blob/master/index.html-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Copyright: Felix Nüsse (2020)">
+
+    <link rel="icon" type="image/png" href="/img/logo.png">
+
+    <title>{{ pagetitle }}</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="/css/vendor/scss/bootstrap.css" rel="stylesheet">
+    <link href="/css/vendor/fontawesome/all.css" rel="stylesheet">
+    <link href="/css/vendor/scss/application.css" rel="stylesheet">
+    {% block styles %}{% endblock %}
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary static-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/img/logo.png" alt="" class="application-logo">
+            <span class="site-title">{{ pagetitle }}</span>
+        </a>
+
+        {% if is_user_logged_in %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto navbar-right">
+                <li class="nav-item {% if siteid == 'main' %}active{% endif %}">
+                    <a class="nav-link" href="/"><i class="fas fa-home nav-item menu-icon"></i>Home</a>
+                </li>
+
+                {% if role >= 4 %}
+                <li class="nav-item {% if siteid == 'settings' %}active{% endif %}">
+                    <a class="nav-link" href="/settings"><i class="fas fa-cogs nav-item menu-icon"></i>Einstellungen</a>
+                </li>
+                {% endif %}
+
+                <li class="nav-item {% if siteid == 'user' %}active{% endif %}">
+                    <a class="nav-link" href="/user"><i class="fas fa-user-alt nav-item menu-icon"></i>{{user_surname}} {{user_name}}</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt nav-item menu-icon"></i>Abmelden</a>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- Page Content -->
+<div class="content-container container">
+
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <table class="table-unstyled text-muted mb-4 mt-4 w-100">
+        <tbody>
+        <tr>
+            <td class="text-left">© Felix Nüsse 2020</td>
+            <td></td>
+            <td class="text-right">Bielefeld, NRW</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Bootstrap core JavaScript -->
+<script src="/js/jquery-3.4.1.js"></script>
+<script src="/js/bootstrap.bundle.js"></script>
+
+</body>
+
+</html>

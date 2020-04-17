@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<br>
+<div class="panel panel-default border border-primary rounded shadow">
+    This is the main content.<br>
+    <br>
+    {% if role >= 1 %}
+    You can see this if you are not disabled<br>
+    {% endif %}
+    <br>
+    {% if role >= 2 %}
+    You can see this if you are a content admin<br>
+    {% endif %}
+    <br>
+    {% if role >= 3 %}
+    You can see this as an admin.<br>
+    {% endif %}
+
+
+</div>
+<br>
+
+
+{% endblock %}

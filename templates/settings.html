@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<link href="/css/vendor/scss/settings.css" rel="stylesheet">
+
+
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-user-tab" data-toggle="tab" href="#nav-user" role="tab" aria-controls="nav-user" aria-selected="true">Nutzer</a>
+        <a class="nav-item nav-link" id="nav-mail-tab" data-toggle="tab" href="#nav-mail" role="tab" aria-controls="nav-mail" aria-selected="false">E-Mails</a>
+        <a class="nav-item nav-link" id="nav-logs-tab" data-toggle="tab" href="#nav-logs" role="tab" aria-controls="nav-logs" aria-selected="false">Logs</a>
+    </div>
+</nav>
+<div class="tab-content rounded-bottom border-right border-left border-bottom" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-user" role="tabpanel" aria-labelledby="nav-user-tab">
+        <table class="table table-striped table-hover table-sm table-responsive-xl">
+            <thead>
+            <tr>
+                <th scope="col" class="col-1">ID</th>
+                <th scope="col" class="col-2">Vorname</th>
+                <th scope="col" class="col-2">Nachname</th>
+                <th scope="col" class="col-4">E-Mail</th>
+                <th scope="col" class="col-2">Rolle</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+            <tr onclick="window.location='/user/{{ user.id }}';">
+                <td>{{ user.id }}</td>
+                <td>{{ user.surname }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+        <div class="text-right">
+            <a href="/settings/adduser" type="button" class="btn btn-primary">Neuer Nutzer</a>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="nav-mail" role="tabpanel" aria-labelledby="nav-mail-tab">
+        <form method="post" action="/settings">
+
+            <div class="input-group mb-3 input-group-addon">
+                <div class="input-group-prepend">
+                    <span class="input-group-text text-padded" id="smtp-server-id">SMTP-Server</span>
+                </div>
+                <input type="text" name="smtp-server" class="form-control"
+                       placeholder="{% if smtpserver == '' %}example.com{% else %}{{smtpserver}}{% endif %}"
+                       aria-label="servername" aria-describedby="smtp-server-id">
+            </div>
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text text-padded" id="smtp-login-id">Loginname   </span>
+                </div>
+                <input type="text" name="smtp-username" class="form-control"
+                       placeholder="{% if smtpusername == '' %}Loginname{% else %}{{smtpusername}}{% endif %}"
+                       aria-label="loginname" aria-describedby="smtp-login-id">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text text-padded" id="smtp-password-id">Passwort      </span>
+                </div>
+
+                <!--placeholder="{% if smtppassword == '' %}Password{% else %}{{smtppassword}}{% endif %}"-->
+                <input type="password" name="smtp-password" class="form-control" placeholder="********"
+                       aria-label="Password" aria-describedby="smtp-password-id">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text text-padded" for="smtp-encryption">Encryption    </label>
+                </div>
+                <select class="form-control" id="smtp-encryption" name="smtp-security">
+                    <option selected>Choose...</option>
+                    <option value="tls" {% if smtpsecurity=='tls' %}selected{% endif %}>SSL/TLS</option>
+                    <option value="star" {% if smtpsecurity=='star' %}selected{% endif %}>STARTTLS</option>
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text text-padded" id="smtp-port-id">Port               </span>
+                </div>
+                <input type="text" name="smtp-port" class="form-control"
+                       placeholder="{% if smtpport == '' %}587{% else %}{{smtpport}}{% endif %}" aria-label="587"
+                       aria-describedby="smtp-port-id">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text text-padded">Mail-Alias     </span>
+                </div>
+                <input type="text" name="smtp-alias" class="form-control"
+                       placeholder="{% if smtpalias == '' %}Alias{% else %}{{smtpalias}}{% endif %}"
+                       aria-label="Mail-Alias">
+                <div class="input-group-append">
+                    <span class="input-group-text">Optional</span>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <a href="/settings/sendmail" type="button" class="btn btn-secondary">Testmail verschicken</a>
+                <input type="submit" class="btn btn-primary" value="Speichern">
+            </div>
+
+        </form>
+
+    </div>
+    <div class="tab-pane fade" id="nav-logs" role="tabpanel" aria-labelledby="nav-logs-tab">
+
+        <table class="table table-striped table-responsive-xl">
+            <thead>
+            <tr>
+                <th scope="col" class="col-1">Level</th>
+                <th scope="col" class="col-5">Inhalt</th>
+                <th scope="col" class="col-3">Zeitstempel</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entry in logs %}
+            <tr>
+                <td class="col-1">{{ entry.level }}</td>
+                <td class="col-5">{{ entry.content }}</td>
+                <td class="col-3">{{ entry.timestamp }}</td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

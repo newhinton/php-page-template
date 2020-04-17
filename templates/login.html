@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+
+{% block styles %}
+<link href="/css/vendor/scss/login.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid border rounded shadow p-3 mb-5 bg-white rounded login-box">
+    <h1>Login</h1><br>
+    <form method="post" action="/">
+        <input type="text" id="login" class="form-control" name="username" placeholder="E-Mail" {% if relogin %}value="{{prefill}}"{% endif %}>
+        <br>
+        <input type="password" id="password" class="form-control" name="password" placeholder="Password" aria-describedby="loginHint">
+        {% if tried_login %}
+        <small id="loginHint" class="form-text text-danger text-left">Falsches Passwort!</small>
+        {% endif %}
+        {% if relogin %}
+        <small id="loginHint" class="form-text text-danger text-left">Bitte melde dich nun mit dem neuem Passwort an!</small>
+        {% endif %}
+        <br>
+        <a href="/recover" class="btn btn-secondary">Passwort vergessen!</a>
+        <input type="submit" class="btn btn-primary" value="Log In">
+    </form>
+</div>
+{% endblock %}

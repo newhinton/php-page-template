@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+
+{% block styles %}
+<link href="/css/login.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+{% if reset %}
+<div class="container-fluid border rounded shadow p-3 mb-5 bg-white rounded login-box">
+    <h1>Login</h1><br>
+    <form method="post" action="/recover">
+        <input type="email" id="email" class="form-control" name="email" placeholder="E-Mail">
+        <small id="loginHint" class="form-text text-muted text-left">Falls diese E-Mailadresse hinterlegt ist, schicken wir dir eine Rücksetzemail.</small>
+        <input type="submit" class="btn btn-primary text-right" value="Passwort zurücksetzen">
+    </form>
+</div>
+{% endif %}
+
+
+{% if sendmail %}
+<div class="container-fluid border rounded shadow p-3 mb-5 bg-white rounded login-box">
+   Prüfe nun dein E-Mail Postfach!
+</div>
+{% endif %}
+
+{% if passwordui %}
+<div class="container-fluid border rounded shadow p-3 mb-5 bg-white rounded login-box text-left">
+    <form method="post" action="/recover">
+        <input type="hidden" class="form-control" id="token" name="token" value="{{token}}">
+
+        <div class="form-group">
+            <label for="change_pw_new">Neues Passwort <small class="form-text text-muted">Mindestens 10 Zeichen!</small></label>
+            <input type="password" class="form-control" id="change_pw_new" name="change_pw_new" aria-describedby="wrongConfirmation">
+            {% if error_wrongconfirmation %}
+            <small id="wrongConfirmation" class="form-text text-danger">Passwörter stimmen nicht überein!</small>
+            {% endif %}
+            {% if error_newempty %}
+            <small id="wrongConfirmation" class="form-text text-danger">Passwort darf nicht leer sein!</small>
+            {% endif %}
+            {% if error_too_short %}
+            <small id="wrongConfirmation" class="form-text text-danger">Passwort zu kurz! (min. 10 Zeichen)</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="change_pw_confirm">Bestätigen</label>
+            <input type="password" class="form-control" id="change_pw_confirm" name="change_pw_confirm">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Passwort ändern!</button>
+    </form>
+</div>
+{% endif %}
+
+{% if invalidtoken %}
+<div class="container-fluid border rounded shadow p-3 mb-5 bg-white rounded login-box">
+    Dieser Link ist abgelaufen und nicht gültig.
+</div>
+{% endif %}
+
+
+{% endblock %}

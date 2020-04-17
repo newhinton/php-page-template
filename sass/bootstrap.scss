@@ -1,0 +1,7 @@
+@import "_colors";
+
+$theme-colors: (
+        "primary": $primary
+);
+
+@import "../vendor/twbs/bootstrap/scss/bootstrap";

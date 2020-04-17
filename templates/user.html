@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm text-left">
+            <form method="post" action="/user/update">
+                <input type="hidden" id="user_id" name="user_id" value="{{user_id}}">
+                <div class="form-group">
+                    <label for="user_name">Name</label>
+                    <input type="text"  class="form-control" id="user_name" name="user_name" value="{{o_user_name}}" {% if role<4 or not edit %}readonly{% endif %}>
+                </div>
+                <div class="form-group">
+                    <label for="user_surname">Vorame</label>
+                    <input type="text" class="form-control" id="user_surname" name="user_surname" value="{{o_user_surname}}" {% if role<4 or not edit %}readonly{% endif %}>
+                </div>
+                <div class="form-group">
+                    <label for="user_email">E-Mail</label>
+                    <input type="email" class="form-control" id="user_email" name="user_email" value="{{user_email}}" aria-describedby="emailHelp" {% if role<4 or not edit %}readonly{% endif %}>
+                    <small id="emailHelp" class="form-text text-muted">Wir teilen deine E-Mail-Adresse mit niemandem.</small>
+                </div>
+
+                {% if role>=4 and edit %}
+                <div class="form-group">
+                    <label for="user_role">Rolle</label>
+                    <select class="form-control" id="user_role" name="user_role">
+                        <option value="1" {% if user_role==1 %}selected{% endif %}>Deaktiviert</option>
+                        <option value="2" {% if user_role==2 %}selected{% endif %}>Nutzer</option>
+                        <option value="3" {% if user_role==3 %}selected{% endif %}>Inhaltemanager</option>
+                        <option value="4" {% if user_role==4 %}selected{% endif %}>Seitenadministrator</option>
+                    </select>
+                </div>
+                <div class="text-right">
+                    <button type="button" id="resetMail" class="btn btn-outline-secondary">Reset Password</button>
+                    <button type="submit" class="btn btn-primary">Speichern!</button>
+                </div>
+                {% endif %}
+            </form>
+        </div>
+        <div class="col-sm">
+            <img src="/img/profilepicture.png" class="rounded-circle">
+        </div>
+    </div>
+
+    {% if show_passwordchange %}
+    <div class="row">
+        <div class="col-sm text-left">
+            <form method="post" action="/user">
+                <div class="form-group">
+                    <label for="change_pw_old">Altes Password</label>
+                    <input type="password" class="form-control" id="change_pw_old" name="change_pw_old" aria-describedby="wrongPassword">
+                    {% if error_wrongpassword %}
+                    <small id="wrongPassword" class="form-text text-danger">Passwort falsch!</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="change_pw_new">Neues Passwort <small class="form-text text-muted">Mindestens 10 Zeichen!</small></label>
+                    <input type="password" class="form-control" id="change_pw_new" name="change_pw_new" aria-describedby="wrongConfirmation">
+                    {% if error_wrongconfirmation %}
+                    <small id="wrongConfirmation" class="form-text text-danger">Passwörter stimmen nicht überein!</small>
+                    {% endif %}
+                    {% if error_newempty %}
+                    <small id="wrongConfirmation" class="form-text text-danger">Passwort darf nicht leer sein!</small>
+                    {% endif %}
+                    {% if error_too_short %}
+                    <small id="wrongConfirmation" class="form-text text-danger">Passwort zu kurz! (min. 10 Zeichen)</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="change_pw_confirm">Bestätigen</label>
+                    <input type="password" class="form-control" id="change_pw_confirm" name="change_pw_confirm">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Passwort ändern!</button>
+            </form>
+        </div>
+    </div>
+
+    {% endif %}
+</div>
+
+<!-- Force premature loading of jquery to use it here!-->
+<script src="/js/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#resetMail").click(function(){
+            $.ajax({
+                url: '/recover',
+                type: 'POST',
+                data: {email:'{{user_email}}'}
+            });
+        });
+    });
+</script>
+
+{% endblock %}
